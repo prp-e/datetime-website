@@ -1,0 +1,113 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<title> Date Time API </title>
+<link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<header>
+<h1> Date and Time API </h1>
+</header>
+<div class="container">
+<h1> Hello, World! </h1>
+<p>
+This API is written in <a href="http://sinatrarb.com" target=_blank> Sinatra </a> , for those who want to have real time date and time in their own applications. The project is open sources, and sources are available on <a href="https://github.com/prp-e/date-time-api" target=_blank> Github </a>. Also, there are some tests on github, please take a look at them to understand how this API works.
+</p>
+<h2> How it works? </h2>
+<h3> Time </h3>
+<div class="code">
+GET /time
+</div>
+<p> Returns current time of the server. Shows result in this format : </p>
+<div class="result">
+HH : MM : SS , Zone = TIMEZONE
+</div>
+<h3> Difference Between Given Zone and UTC </h3>
+<div class="code">
+GET /time/:zone
+</div>
+<p> You need to give it a parameter, for example : </p>
+<div class="example">
+GET /time/+0330
+</div>
+<p> Then it returns difference between given zone and UTC. </p>
+<h3> Date </h3>
+<div class="code">
+GET /date
+</div>
+<p> Returns current gregorian day of the server in this format : </p>
+<div class="result">
+MM / DD / YYYY
+</div>
+<p> P.S : American format is more popular than other formats, and this is why I used it. </p>
+<h3> Jalali Date </h3>
+<div class="code">
+GET /date/jalali
+</div>
+<p> Returns current Jalali date of the server in this format : </p>
+<div class="result">
+DD / MM / YYY
+</div>
+<p> This is regular format we use in Iran, Afghanistan, Tajikistan and other regions of the world which people use Jalali calendar. </p>
+<h3> Parsing a date </h3> 
+<div class="code">
+GET /date/parse/:current
+</div>
+<p> This will convert given date and time to the current date and time of the server. For example :</p>
+<div class="example">
+GET /date/parse/10:25 +0430
+</div>
+<p> And if server is located in Iran, it'll return: </p>
+<div class="result">
+10/14/2016, 9:25:00, Zone: IRST
+</div>
+<h3> Converting Gregorian to Jalali </h3>
+<div class="code">
+GET /date/to/jalali/:current
+</div>
+<p> It takes a gregorian date and converts it to Jalali. for examlpe :</p>
+<div class="example">
+GET /date/to/jalali/2016-05-29
+</div>
+<p> Will return: </p>
+<div class="result">
+9/3/1395
+</div>
+<h3> Converting Jalali to Gregorian </h3>
+<div class="code">
+GET /date/to/gregorian/:current
+</div>
+<p> It takes a Jalali date and converts it to Gregorian. for example :</p>
+<div class="example">
+GET /date/to/gregorian/1395-03-09
+</div>
+<p>Will return:</p>
+<div class="result">
+05/29/2016
+</div>
+<h3> Current time from a timezone </h3>
+<div class="code">
+GET /zone/:zone
+</div>
+<p> It takes a timezone, and returns current time of that :</p>
+<div class="example">
+GET /zone/Asia-Tehran
+</div> 
+<p>For more zones, you need to do this:</p>
+<div class="code">
+ls /usr/share/zoneinfo
+</div>
+<h2> Writing a simple test </h2>
+<p> We use ruby programming language and "http" gem for writing tests. This is a very, very simplr test which returns current server's date: </p>
+<div class="ruby">
+require 'http'
+<br/>
+<br/>
+r = HTTP.get("http://localhost/date")
+<br/>
+puts r.body.to_s
+</div>
+<p> Now, it's ready to use!</p>
+</div>
+</body>
+</html>
